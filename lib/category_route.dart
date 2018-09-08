@@ -1,3 +1,4 @@
+import 'package:conversor_unidades/unit.dart';
 import 'package:flutter/material.dart';
 import 'package:conversor_unidades/category.dart';
 
@@ -5,6 +6,7 @@ const _categoryIcono = Icons.beach_access;
 final _colorFondo = Colors.lightBlueAccent[100];
 
 class CategoryRoute extends StatelessWidget {
+
   const CategoryRoute();
 
   static const _categoryNombres = <String>[
@@ -37,6 +39,16 @@ class CategoryRoute extends StatelessWidget {
     );
   }
 
+  List<Unit> _obtenerListaDeUnits(String nombreDeCategory) {
+    return List.generate(10, (int numeroConversion) {
+      numeroConversion += 1;
+      return Unit(
+        nombre: '$nombreDeCategory Unit $nombreDeCategory',
+        conversion: numeroConversion.toDouble(),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -48,10 +60,12 @@ class CategoryRoute extends StatelessWidget {
             nombre: _categoryNombres[i],
             icono: _categoryIcono,
             color: _coloresBase[i]),
+            units: _obtenerListaDeUnits(_categoryNombres[i]),
       );
     }
 
     final listView = Container(
+      color: _colorFondo,
       padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: _construirWidgetCategory(categorias),
     );
