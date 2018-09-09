@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-
 import 'package:conversor_unidades/unit.dart';
 
 /// Pantalla donde el usuario puede introducir cantidades para convertir.
 /// De momento, solo despliega una lista de units a modo de prueba.
-/// Es responsable de la UI en el destino de las rutas.
 
-class RouteConversor extends StatelessWidget {
+class RouteConversor extends StatefulWidget {
 
   final String nombre;
   final Color color;
@@ -22,14 +20,22 @@ class RouteConversor extends StatelessWidget {
         assert(color != null),
         assert(units != null);
 
+  ///Creación de objeto estado
+  @override
+  _StateRouteConversor createState() => new _StateRouteConversor();
+}
+
+///Clase que almacena y gestiona estado del widget
+class _StateRouteConversor extends State<RouteConversor>{
+
   ///Configuración de ListView que muestra los ítems de la categoría
   @override
   Widget build(BuildContext context) {
 
     // Placeholder para units de prueba
-    final widgetsUnit = units.map((Unit unit) {
+    final widgetsUnit = widget.units.map((Unit unit) {
       return Container(
-        color: color,
+        color: widget.color,
         margin: EdgeInsets.all(8.0),
         padding: EdgeInsets.all(16.0),
         child: Column(

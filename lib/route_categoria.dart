@@ -3,15 +3,26 @@ import 'package:flutter/material.dart';
 import 'package:conversor_unidades/categoria.dart';
 import 'package:conversor_unidades/unit.dart';
 
-final _color_de_fondo = Colors.green[100];
+final _color_de_fondo = Colors.lightBlueAccent[100];
 
 /// Pantalla de inicio de la app. Muestra un header y una lista de categorías.
-/// Es la responsable de la UI en el destino de las routes.
-
-class RouteCategoria extends StatelessWidget {
+class RouteCategoria extends StatefulWidget {
 
   const RouteCategoria();
 
+  ///Implementación de método de StatefulWidget, el cual guarda un estado
+  ///para potencialmente, ser modificado
+  @override
+  _StateRouteCategoria createState() => new _StateRouteCategoria();
+}
+
+
+///Clase State que gestiona dinámicamente la creación de ls ListView
+///desplegada en la clase RouteCategoria
+class _StateRouteCategoria extends State<RouteCategoria> {
+
+  ///Variable que almacenará la lista creada dinámicamente
+  final lista_de_categorias = <Categoria>[];
   static const _nombres_de_categorias = <String>[
     'Longitud',
     'Área',
@@ -22,7 +33,6 @@ class RouteCategoria extends StatelessWidget {
     'Energía',
     'Moneda',
   ];
-
   static const _colores_de_categorias = <Color>[
     Colors.teal,
     Colors.orange,
@@ -34,9 +44,24 @@ class RouteCategoria extends StatelessWidget {
     Colors.red,
   ];
 
-  /// Define el número correcto de filas para la ListView, la cual a su vez
-  /// es la encargada de la organización de las categorías.
-  Widget _contruirWidgetsCategorias(List<Widget> categorias) {
+  ///La lista se creará al inicializar
+  @override
+  void initState() {
+    super.initState();
+
+    //Asignar nombre, color e ícono a cada categoría, luego meterla en la lista
+    for (var i = 0; i < _nombres_de_categorias.length; i++) {
+      lista_de_categorias.add(Categoria(
+        nombre: _nombres_de_categorias[i],
+        color: _colores_de_categorias[i],
+        icono: Icons.cake,
+        units: _obtenerListaUnits(_nombres_de_categorias[i]),
+      ));
+    }
+  }
+
+  ///Construye ListView y define número adecuado de filas para las categorías
+  Widget _construirWidgetCategorias(List<Widget> categorias) {
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) => categorias[index],
       itemCount: categorias.length,
@@ -54,28 +79,16 @@ class RouteCategoria extends StatelessWidget {
     });
   }
 
-  ///Creación y despliegue de la lista de categorías en la pantalla inicial
+  ///Construcción de la lista de categorías y despliegue de toda la pantalla
   @override
   Widget build(BuildContext context) {
-
-    final categorias = <Categoria>[]; //Lista de categorías vacía
-
-    //Asignar nombre, color e ícono a cada categoría, luego meterla en la lista
-    for (var i = 0; i < _nombres_de_categorias.length; i++) {
-      categorias.add(Categoria(
-        nombre: _nombres_de_categorias[i],
-        color: _colores_de_categorias[i],
-        icono: Icons.cake,
-        units: _obtenerListaUnits(_nombres_de_categorias[i]),
-      ));
-    }
 
     //Crear contenedor de la categoría, con su color, padding e incrustarle
     //la categoría como child
     final listView = Container(
       color: _color_de_fondo,
       padding: EdgeInsets.symmetric(horizontal: 8.0),
-      child: _contruirWidgetsCategorias(categorias),
+      child: _construirWidgetCategorias(lista_de_categorias),
     );
 
     //Definir AppBar de la pantalla inicial de la app
