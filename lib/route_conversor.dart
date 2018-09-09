@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
-import 'unit.dart';
+import 'package:meta/meta.dart';
 
-class ConverterRoute extends StatelessWidget{
+import 'package:conversor_unidades/unit.dart';
+
+/// Pantalla donde el usuario puede introducir cantidades para convertir.
+/// De momento, solo despliega una lista de units a modo de prueba.
+/// Es responsable de la UI en el destino de las rutas.
+
+class RouteConversor extends StatelessWidget {
 
   final String nombre;
   final Color color;
   final List<Unit> units;
 
-  const ConverterRoute({
+  /// Esta clase requiere que todos sus argumentos no sean null.
+  const RouteConversor({
     @required this.nombre,
     @required this.color,
     @required this.units,
-  }) :  assert(nombre != null),
+  })  : assert(nombre != null),
         assert(color != null),
         assert(units != null);
 
+  ///Configuración de ListView que muestra los ítems de la categoría
   @override
   Widget build(BuildContext context) {
 
-    final widgetsUnit = units.map((Unit unit){
-
-      // TODO: Set the color for this Container
-
+    // Placeholder para units de prueba
+    final widgetsUnit = units.map((Unit unit) {
       return Container(
+        color: color,
         margin: EdgeInsets.all(8.0),
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -39,6 +46,7 @@ class ConverterRoute extends StatelessWidget{
         ),
       );
     }).toList();
+
     return ListView(
       children: widgetsUnit,
     );
